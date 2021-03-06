@@ -1,12 +1,13 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
+# import matplotlib.pyplot as plt
+# import numpy as np
 import pyodbc as db
 import calendar
 import datetime
 
 now = datetime.datetime.now()
 days_in_month = calendar.monthrange(now.year, now.month)[1]
+mtd_days = days_in_month - 1
 covered_day = now.day - 1
 remaining_day = days_in_month - covered_day
 
@@ -56,4 +57,19 @@ todays_target = round(remaining_target / remaining_day)
 
 todays_achv = str(round(((todays_sales / todays_target) * 100), 2)) + ' %'
 # print('Todays Achiv  = ', todays_achv)
+
+
+# # -------- Monthly KPI---------------------------------------
+monthly_trg = monthly_trg
+mtd_target = (monthly_trg / days_in_month) * covered_day
+mtd_actual_sales = round(sum(mtd_sales[1:]))
+mtd_achiv = str(round((mtd_actual_sales / ((monthly_trg/days_in_month)* mtd_days)) * 100)) + ' %'
+
+mtd_sales_trend = str(round ((((mtd_actual_sales /len(mtd_sales[1:])) * days_in_month) / monthly_trg ) * 100)) + ' %'
+# print(mtd_sales)
+print('Monthly Trg      = ' , monthly_trg)
+print('MTD Actual Aales = ', mtd_actual_sales)
+print('MTD Achiv        = ', mtd_achiv)
+print('MTD Sales Trend = ', mtd_sales_trend)
+
 
